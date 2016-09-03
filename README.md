@@ -9,7 +9,7 @@ mapping them to a skybox using the X3D Background node, outputting a 3D renderin
 
 The toolkit used is X3D-finely-sharpened built purely in C#.
 
-![alt text](screenshots/screenshot1.png "Streetview in C# Example 1")
+![alt text](Screenshots/screenshot1.png "Streetview in C# Example 1")
 
 Project currently in development, more to be implemented.
 
