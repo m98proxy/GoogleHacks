@@ -9,6 +9,9 @@ mapping them to a skybox using the X3D Background node, outputting a 3D renderin
 
 The toolkit used is X3D-finely-sharpened built purely in C#.
 
+* the quaternion based camera contained in the accompanying graphical library 
+  is actually better than the google maps camera, as google street view suffers from gimbal lock.    
+
 ![alt text](Screenshots/screenshot1.png "Streetview in C# Example 1")
 
 Project currently in development, more to be implemented.
