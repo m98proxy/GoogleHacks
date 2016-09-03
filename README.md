@@ -20,7 +20,7 @@ Development notes:
 * local caching of textures and preloading 
 * preference of local cache to under utilise google api throughput 
 * minimised api requests
-* processing of textures into 3D voxels and delta compression
+* processing of textures into 3D voxels and image delta compression
 
 
 
