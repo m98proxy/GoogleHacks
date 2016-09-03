@@ -30,6 +30,11 @@ namespace Google
         public StreetviewProvider(ProviderSettings settings)
         {
             this.Settings = settings;
+
+            if(string.IsNullOrEmpty(settings.ApiKey))
+            {
+                Console.WriteLine("[warning] May need to register a Google Maps API Key and configure ProviderSettings for current StreetviewProvider");
+            }
         }
 
         #endregion
@@ -174,7 +179,7 @@ namespace Google
                 }
                 else
                 {
-                    Console.WriteLine("[warning] INVALID RESOURCE TYPE " + streetViewRequest.ToString());
+                    Console.WriteLine("[warning] invalid resource type " + streetViewRequest.ToString());
                 }
             }
             else

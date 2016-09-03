@@ -14,7 +14,7 @@ namespace GoogleHacks
 {
     public class Panorama
     {
-        private static Background skybox; // use x3d-finely-sharpened to draw the skybox
+        private static Background skybox = new Background();
         private static StreetviewProvider provider;
         private static ProviderSettings settings;
 
@@ -23,6 +23,13 @@ namespace GoogleHacks
         private static Bitmap left, right, top, bottom, front, back;
 
         private static Shape shapeBox;
+
+        public static Vector3 LastPosition;
+
+        public static bool initilised = false;
+        public static bool isLoaded = false;
+        public static bool loadedFirst = false;
+        public static int numSidesLoaded = 0;
 
         public static StreetviewProvider CreateProvider()
         {
@@ -39,43 +46,102 @@ namespace GoogleHacks
             return provider;
         }
 
+        public static void Reset(SceneCamera camera)
+        {
+            camera.Position = MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize);
+        }
+
+        public static void Unload()
+        {
+            skybox.Unload();
+        }
+
+        private static void loadSkybox()
+        {
+            skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
+
+            isLoaded = true;
+            loadedFirst = true;
+        }
+
+        public static void LookupPanorama(Vector3 position)
+        {
+            isLoaded = false;
+            numSidesLoaded = 0;
+
+            if (initilised)
+            {
+                Unload();
+            }
+
+            // get just 6 static images as a test
+
+            //var test = new Bitmap("D:\\test-streetview.jpg");
+            //var newSize = ImageTexture.GetTextureGLMaxSize(test);
+            //ImageTexture.Rescale(ref test, new Size(512, 512));
+            //left = right = front = back = top = bottom = test;
+
+            Task.Run(() =>
+            {
+                right = provider.FetchView(position, 0, 4.5f + 0.17f);
+                ++numSidesLoaded;
+            });
+
+            Task.Run(() =>
+            {
+                left = provider.FetchView(position, 0, 1.61f);
+                ++numSidesLoaded;
+            });
+
+            Task.Run(() =>
+            {
+                front = provider.FetchView(position, 0, 0);
+                ++numSidesLoaded;
+            });
+
+            Task.Run(() =>
+            {
+                back = provider.FetchView(position, 0, X3D.MathHelpers.PI + 0.7f);
+                ++numSidesLoaded;
+            });
+
+            Task.Run(() =>
+            {
+                top = provider.FetchView(position, X3D.MathHelpers.PIOver2, 0);
+                ++numSidesLoaded;
+            });
+
+            Task.Run(() =>
+            {
+                bottom = provider.FetchView(position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
+                ++numSidesLoaded;
+            });
+        }
+
         public static void Initilize(SceneCamera camera)
         {
             provider = CreateProvider();
 
             // Set camera position to a valid Street view location
-            camera.Position = GoogleHacks.MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize);
+            Reset(camera);
 
-
-
-
-            // get just 6 static images as a test
-
-            var test = new Bitmap("D:\\test-streetview.jpg");
-            var newSize = ImageTexture.GetTextureGLMaxSize(test);
-            ImageTexture.Rescale(ref test, new Size(512, 512));
-            //left = right = front = back = top = bottom = test;
-
-            right = provider.FetchView(camera.Position, 0, 4.5f);
-            left = provider.FetchView(camera.Position, 0, 1.61f);
-
-
-            front = provider.FetchView(camera.Position, 0, 0);
-            back = provider.FetchView(camera.Position, 0, X3D.MathHelpers.PI);
-
-            top = provider.FetchView(camera.Position, X3D.MathHelpers.PIOver2, 0);
-            bottom = provider.FetchView(camera.Position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
-
-
-            skybox = new Background();
-            skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
+            // Lookup from street view and make a panorama
+            LookupPanorama(camera.Position);
 
             shapeBox = new Shape(new Box());
+
+            LastPosition = camera.Position;
+
+            initilised = true;
         }
 
         public static void Render(RenderingContext rc)
         {
-
+            if(numSidesLoaded == 6)
+            {
+                loadSkybox();
+                numSidesLoaded = -1;
+            }
 
             rc.matricies.Scale = Vector3.One;
 
@@ -87,16 +153,30 @@ namespace GoogleHacks
                 preRendered = true;
             }
 
-            skybox.PreRender();
-            skybox.Render(rc);
-            skybox.PostRender(rc);
-
+            if (initilised && loadedFirst)
+            {
+                skybox.PreRender();
+                skybox.Render(rc);
+                skybox.PostRender(rc);
+            }
 
             shapeBox.PreRender();
             shapeBox.Render(rc);
             shapeBox.PostRender(rc);
+        }
 
+        public static void Move(Vector3 direction, Vector3 position)
+        {
+            Vector2 uvEarth;
 
+            LookupPanorama(position);
+
+            // Translate position to geospacial earth coordinate for debugging
+            uvEarth = MathHelpers.CartesianToEarthUV(position, settings.WorldSize);
+
+            Console.WriteLine("Panorama moved to ({0},{1})", uvEarth.X, uvEarth.Y);
+
+            LastPosition = position;
         }
     }
 }

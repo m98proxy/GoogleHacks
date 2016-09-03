@@ -99,9 +99,11 @@ namespace GoogleHacks
 
         #region Rendering Methods
 
-        void restart()
+        protected void Restart()
         {
-
+            Panorama.Unload();
+            Panorama.Initilize(ActiveCamera);
+            Panorama.Reset(ActiveCamera);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -147,7 +149,15 @@ namespace GoogleHacks
   
             //Console.WriteLine(rc.cam.camera_pitch + ", " + rc.cam.camera_yaw);
 
+            if((rc.cam.Position - Panorama.LastPosition).Length > 2.0f)
+            {
+                // there is a substantial enough of a change from the previous location 
+                Panorama.Move(rc.cam.Direction, rc.cam.Position);
+            }
+
             Panorama.Render(rc);
+
+            
 
             SwapBuffers();
         }
@@ -171,6 +181,7 @@ namespace GoogleHacks
         {
             Vector3 direction = Vector3.Zero;
             bool rotated = false;
+            bool translated = false;
 
             slowFlySpeed = Keyboard[Key.AltLeft];
             fastFlySpeed = Keyboard[Key.ShiftLeft];
@@ -257,27 +268,33 @@ namespace GoogleHacks
                 if (Keyboard[Key.T])
                 {
                     ActiveCamera.Fly(playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
                 if (Keyboard[Key.G])
                 {
                     ActiveCamera.Fly(-playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
 
                 if (Keyboard[Key.W])
                 {
                     ActiveCamera.Walk(playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
                 if (Keyboard[Key.S])
                 {
                     ActiveCamera.Walk(-playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
                 if (Keyboard[Key.A])
                 {
                     ActiveCamera.Strafe(playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
                 if (Keyboard[Key.D])
                 {
                     ActiveCamera.Strafe(-playerDirectionMagnitude * movementSpeed);
+                    translated = true;
                 }
 
                 #region G.3 Emulate pointing device Key Bindings
@@ -332,7 +349,7 @@ namespace GoogleHacks
             {
                 case Key.F5:
 
-                    restart();
+                    Restart();
 
                     break;
                 case Key.F:
