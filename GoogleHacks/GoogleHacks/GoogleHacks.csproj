@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8269EABF-6658-465F-B6DB-F82E1332C7BB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GoogleHacks</RootNamespace>
+    <AssemblyName>GoogleHacks</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OpenTK\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImageDeltaNode.cs" />
+    <Compile Include="Panorama.cs" />
+    <Compile Include="StreetViewer3DApplication.cs" />
+    <Compile Include="MathHelpers.cs" />
+    <Compile Include="Octree.cs" />
+    <Compile Include="Imaging.cs" />
+    <Compile Include="LocalStore.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreetviewRequest.cs" />
+    <Compile Include="StreetviewProvider.cs" />
+    <Compile Include="ProviderSettings.cs" />
+    <Compile Include="StreetviewResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Shaders\BackgroundFragmentShader.shader" />
+    <None Include="Shaders\BackgroundVertexShader.shader" />
+    <None Include="Shaders\DefaultFragmentShader.shader" />
+    <None Include="Shaders\DefaultVertexShader.shader" />
+    <None Include="Shaders\MaterialFragmentShader.shader" />
+    <None Include="Shaders\MaterialVertexShader.shader" />
+    <None Include="Shaders\PerlinNoiseFragmentShader.shader" />
+    <None Include="Shaders\PerlinNoiseVertexShader.shader" />
+    <None Include="Shaders\SceneGraphFragment.shader" />
+    <None Include="Shaders\SceneGraphVertex.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\X3D\x3d-finely-sharpened\X3DRuntime\X3DRuntime.csproj">
+      <Project>{c0aa1245-092c-480d-9963-7b03dda63794}</Project>
+      <Name>X3DRuntime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\X3D\x3d-finely-sharpened\X3D\X3D.csproj">
+      <Project>{0742E4E9-D1BA-41F1-B161-33CD3A3D4D33}</Project>
+      <Name>X3D</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
