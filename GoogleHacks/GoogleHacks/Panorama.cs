@@ -60,11 +60,11 @@ namespace GoogleHacks
             left = provider.FetchView(camera.Position, 0, 1.61f);
 
 
-            front = provider.FetchView(camera.Position, 0, X3D.MathHelpers.PI);
-            back = provider.FetchView(camera.Position, 0, X3D.MathHelpers.PI2);
+            front = provider.FetchView(camera.Position, 0, 0);
+            back = provider.FetchView(camera.Position, 0, X3D.MathHelpers.PI);
 
             top = provider.FetchView(camera.Position, X3D.MathHelpers.PIOver2, 0);
-            bottom = provider.FetchView(camera.Position, -X3D.MathHelpers.PIOver2, 0);
+            bottom = provider.FetchView(camera.Position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
 
 
             skybox = new Background();
