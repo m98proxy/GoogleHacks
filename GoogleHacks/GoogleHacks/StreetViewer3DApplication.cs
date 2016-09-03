@@ -107,7 +107,7 @@ namespace GoogleHacks
         protected override void OnLoad(EventArgs e)
         {
             Console.WriteLine("LOAD <3d street viewer> ");
-            Console.Title = "GoogleHacks 3D - © 2016 Gerallt Franke";
+            Console.Title = "GoogleHacks [Streetview 3D] - © 2016 Gerallt Franke";
             int[] t = new int[2];
             GL.GetInteger(GetPName.MajorVersion, out t[0]);
             GL.GetInteger(GetPName.MinorVersion, out t[1]);
