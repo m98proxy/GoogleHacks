@@ -15,7 +15,7 @@ The toolkit used is X3D-finely-sharpened built purely in C#.
 
 Development notes:
 * 3D rendering API provided by OpenGL via OpenTK.
-* Quaternion based camera coordinates as input to street view api; heading coresponding to camera yaw, and pitch
+* Quaternion based camera coordinates as input to street view api; camera yaw, and pitch controls
 * Camera position vector maps to UV Spherical coordinate for translation of 3D space to geospacial
 * local caching of textures and preloading 
 * preference of local cache to under utilise google api throughput 
