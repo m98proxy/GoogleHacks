@@ -1,7 +1,8 @@
 # GoogleHacks
 
-GoogleHacks throws together a C# API for google maps 
-specifically google street view integration with C#/OpenTK projects.
+This project, GoogleHacks throws together a C# API for google maps specifically google street view, 
+providing the means to integrate Street View with C#, OpenTK, OpenGL projects, 
+with a bunch of new features inherent from a modern graphical library.  
 
 The API within provides sampling input of 6 Skybox images (front, back, left, right, up, down)
 mapping them to a skybox using the X3D Background node, outputting a 3D rendering; 360 degree panorama for the current camera position. 
