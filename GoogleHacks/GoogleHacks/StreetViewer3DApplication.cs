@@ -145,7 +145,7 @@ namespace GoogleHacks
             rc.Keyboard = this.Keyboard;
 
   
-            Console.WriteLine(rc.cam.camera_pitch + ", " + rc.cam.camera_yaw);
+            //Console.WriteLine(rc.cam.camera_pitch + ", " + rc.cam.camera_yaw);
 
             Panorama.Render(rc);
 
