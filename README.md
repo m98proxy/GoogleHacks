@@ -6,7 +6,7 @@ GoogleHacks throws together a C# API for google maps
 specifically google street view integration with C#/OpenTK projects.
 
 The API within provides sampling input of 6 Skybox images (front, back, left, right, up, down)
-mapping them to a skybox using the X3D Background node, outputting a 3D rendering; 360 degree panorama.
+mapping them to a skybox using the X3D Background node, outputting a 3D rendering; 360 degree panorama for the current camera position. 
 
 
 The toolkit used is X3D-finely-sharpened built purely in C#.
@@ -15,10 +15,12 @@ The toolkit used is X3D-finely-sharpened built purely in C#.
 
 Development notes:
 * 3D rendering API provided by OpenGL via OpenTK.
-* Quaternion based camera coordinates as input to street view api
+* Quaternion based camera coordinates as input to street view api; heading coresponding to camera yaw, and pitch
+* Camera position vector maps to UV Spherical coordinate for translation of 3D space to geospacial
 * local caching of textures and preloading 
 * preference of local cache to under utilise google api throughput 
-* processing of textures into 3D voxels
+* minimised api requests
+* processing of textures into 3D voxels and delta compression
 
 
 
