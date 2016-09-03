@@ -5,9 +5,9 @@ The API within provides sampling input of 6 Skybox images (front, back, left, ri
 mapping them to a skybox using the X3D Background node.
 
 
-The toolkit used is X3D-finely-sharpened built purely in C#,
+The toolkit used is X3D-finely-sharpened built purely in C#.
 
-3D rendering API provided by OpenTK an OpenGL wrapper.
+3D rendering API provided by OpenGL via OpenTK.
 
 
 
