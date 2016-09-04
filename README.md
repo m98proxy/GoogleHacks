@@ -17,14 +17,19 @@ The toolkit used is X3D-finely-sharpened built purely in C#.
 
 Project currently in development, more to be implemented.
 
-Development notes:
-* 3D rendering API provided by OpenGL via OpenTK.
-* Quaternion based camera coordinates as input to street view api; camera yaw, and pitch controls
-* Camera position vector maps to UV Spherical coordinate for translation of 3D space to geospacial
-* local caching of textures and preloading 
-* preference of local cache to under utilise google api throughput 
-* minimised api requests
-* processing of textures into 3D voxels and image delta compression
+Development tasks:
+* [COMPLETED] Quaternion based camera coordinates as input to street view api; camera yaw, and pitch controls
+* [COMPLETED] Camera position vector mapping to UV Spherical coordinate for translation of 3D space to geospacial
+* [COMPLETED] Streetview provider
+* [COMPLETED] 3D Application skeleton + integration with x3d-finely-sharpened
+* TODO Visualize nearest roads in minimap depthmask-locked to top lefthand corner 
+* TODO interpolate road paths for waypoint smoothing in minimap
+* TODO Snap to nearest road using 'Snap to Roads' https://developers.google.com/maps/documentation/roads/snap
+* TODO Image sitching of panorama
+* TODO local caching of textures and preloading 
+* TODO preference of local cache to under utilise google api throughput 
+* TODO minimised api requests
+* TODO processing of textures into 3D voxels and image delta compression
 
 
 
