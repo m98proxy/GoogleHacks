@@ -1,6 +1,6 @@
 # GoogleHacks
 
-This project, GoogleHacks throws together a C# API for google maps specifically google street view, 
+This repository, GoogleHacks throws together a C# API for google maps specifically google street view, 
 providing the means to integrate Street View with C#, OpenTK, OpenGL projects, 
 with a bunch of new features inherent from a modern graphical library.  
 
