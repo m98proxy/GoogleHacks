@@ -22,7 +22,8 @@ Development tasks:
 * [COMPLETED] Camera position vector mapping to UV Spherical coordinate for translation of 3D space to geospacial
 * [COMPLETED] Streetview provider
 * [COMPLETED] 3D Application skeleton + integration with x3d-finely-sharpened
-* TODO Visualize nearest roads in minimap and interpolate road paths for waypoint smoothing  
+* TODO Visualize nearest roads in minimap depthmask-locked to top lefthand corner 
+* TODO interpolate road paths for waypoint smoothing in minimap
 * TODO Snap to nearest road using 'Snap to Roads' https://developers.google.com/maps/documentation/roads/snap
 * TODO Image sitching of panorama
 * TODO local caching of textures and preloading 
