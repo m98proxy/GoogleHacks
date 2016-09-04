@@ -151,7 +151,7 @@ namespace GoogleHacks
 
             float distFromPos = (rc.cam.Position - Panorama.LastPosition).Length;
 
-            if (distFromPos > 1.0f)
+            if (distFromPos > 0.5f)
             {
                 // there is a substantial enough of a change from the previous location 
                 Panorama.Move(rc.cam.Direction, rc.cam.Position);

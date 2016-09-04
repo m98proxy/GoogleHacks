@@ -56,7 +56,7 @@ namespace GoogleHacks
 
         public static void Unload()
         {
-            skybox.Unload();
+            
         }
 
         private static void loadPanorama()
@@ -64,7 +64,11 @@ namespace GoogleHacks
             try
             {
                 //TODO: stitch panorama removing seams 
-
+                if (initilised)
+                {
+                    skybox.Unload();
+                }
+                
                 skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
 
                 isLoaded = true;
