@@ -28,7 +28,7 @@ namespace GoogleHacks
         /// A Vector2 in the following format:
         /// (X: Latitude, Y: Longitude)
         /// </returns>
-        public static Vector2 CartesianToEarthUV(Vector3 position, Vector3? boundingVolume)
+        public static Vector2 CartesianToEarthUV(Vector3 position, Vector3 boundingVolume)
         {
             Vector2 uv;
             float longitude; // x-axis
@@ -36,12 +36,7 @@ namespace GoogleHacks
             Vector3 bbox;
             Vector3 positionRatio;
 
-            if (!boundingVolume.HasValue)
-            {
-                boundingVolume = new Vector3(1000, 1000, 1000); // size of earth in the scale of the 3D rendering
-            }
-
-            bbox = boundingVolume.Value;
+            bbox = boundingVolume;
 
             // Normalize the 3D position between [0, 1]
             positionRatio = new Vector3(position.X / bbox.X, position.Y / bbox.Y, position.Z / bbox.Z);
@@ -71,18 +66,13 @@ namespace GoogleHacks
         /// <returns>
         /// Position in 3D space.
         /// </returns>
-        public static Vector3 EarthUVToCartesian(Vector2 uvAngle, Vector3? boundingVolume)
+        public static Vector3 EarthUVToCartesian(Vector2 uvAngle, Vector3 boundingVolume)
         {
             Vector3 pos;
             Vector3 bbox;
             Vector3 positionRatio;
 
-            if (!boundingVolume.HasValue)
-            {
-                boundingVolume = new Vector3(1000, 1000, 1000); // size of earth in the scale of the 3D rendering
-            }
-
-            bbox = boundingVolume.Value;
+            bbox = boundingVolume;
 
             uvAngle.X = X3D.MathHelpers.ClampDegrees(uvAngle.X);
             uvAngle.Y = X3D.MathHelpers.ClampDegrees(uvAngle.Y);
