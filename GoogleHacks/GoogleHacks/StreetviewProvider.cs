@@ -27,6 +27,12 @@ namespace Google
 
         #region Constructors
 
+        /// <summary>
+        /// Create a new street view Provider using the specified settings.
+        /// </summary>
+        /// <param name="settings">
+        /// Street view settings 
+        /// </param>
         public StreetviewProvider(ProviderSettings settings)
         {
             this.Settings = settings;
@@ -122,7 +128,7 @@ namespace Google
                                   (yaw / MathHelpers.PI2) * 360.0f);
 
             // Convert position to earth position
-            uvEarthPosition = GoogleHacks.MathHelpers.CartesianToEarthUV(position, null);
+            uvEarthPosition = GoogleHacks.MathHelpers.CartesianToEarthUV(position, Settings.WorldSize.Value);
 
             // Make street view request
             request = new StreetviewRequest()
@@ -140,6 +146,8 @@ namespace Google
             response = DispatchRequest(request);
 
             image = response.Image;
+
+            if (image == null) return null;
 
             //var newSize = ImageTexture.GetTextureGLMaxSize(image);
             ImageTexture.Rescale(ref image, new Size(512, 512));

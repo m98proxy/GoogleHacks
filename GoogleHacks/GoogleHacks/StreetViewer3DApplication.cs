@@ -21,7 +21,7 @@ namespace GoogleHacks
         #region Public Static Fields
 
         public static float playerDirectionMagnitude = 0.1f;
-        public static float movementSpeed = 1.0f;
+        public static float movementSpeed = 0.0001f;
 
         #endregion
 
@@ -146,10 +146,12 @@ namespace GoogleHacks
             rc.cam = ActiveCamera;
             rc.Keyboard = this.Keyboard;
 
-  
+
             //Console.WriteLine(rc.cam.camera_pitch + ", " + rc.cam.camera_yaw);
 
-            if((rc.cam.Position - Panorama.LastPosition).Length > 2.0f)
+            float distFromPos = (rc.cam.Position - Panorama.LastPosition).Length;
+
+            if (distFromPos > 1.0f)
             {
                 // there is a substantial enough of a change from the previous location 
                 Panorama.Move(rc.cam.Direction, rc.cam.Position);

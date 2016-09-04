@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* Copyright © 2016
+ * Author: Gerallt Franke */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +41,7 @@ namespace GoogleHacks
             settings = new ProviderSettings()
             {
                 ApiKey = "", // If left blank, further requests and IP address can get blocked by Google.
-                WorldSize = new Vector3(1000, 1000, 1000)
+                WorldSize = new Vector3(1000000, 1000000, 1000000)
             };
 
             provider = new StreetviewProvider(settings);
@@ -48,7 +51,7 @@ namespace GoogleHacks
 
         public static void Reset(SceneCamera camera)
         {
-            camera.Position = MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize);
+            camera.Position = MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize.Value);
         }
 
         public static void Unload()
@@ -56,12 +59,18 @@ namespace GoogleHacks
             skybox.Unload();
         }
 
-        private static void loadSkybox()
+        private static void loadPanorama()
         {
-            skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
+            try
+            {
+                //TODO: stitch panorama removing seams 
 
-            isLoaded = true;
-            loadedFirst = true;
+                skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
+
+                isLoaded = true;
+                loadedFirst = true;
+            }
+            catch{ }
         }
 
         public static void LookupPanorama(Vector3 position)
@@ -80,6 +89,9 @@ namespace GoogleHacks
             //var newSize = ImageTexture.GetTextureGLMaxSize(test);
             //ImageTexture.Rescale(ref test, new Size(512, 512));
             //left = right = front = back = top = bottom = test;
+
+            //TODO: stitch panorama and remove seams 
+            //TODO: change from cube map to octagon or sphere
 
             Task.Run(() =>
             {
@@ -139,7 +151,7 @@ namespace GoogleHacks
         {
             if(numSidesLoaded == 6)
             {
-                loadSkybox();
+                loadPanorama();
                 numSidesLoaded = -1;
             }
 
@@ -160,19 +172,21 @@ namespace GoogleHacks
                 skybox.PostRender(rc);
             }
 
-            shapeBox.PreRender();
-            shapeBox.Render(rc);
-            shapeBox.PostRender(rc);
+            //shapeBox.PreRender();
+            //shapeBox.Render(rc);
+            //shapeBox.PostRender(rc);
         }
 
         public static void Move(Vector3 direction, Vector3 position)
         {
             Vector2 uvEarth;
 
+            // TODO: snap position to nearest road to solve panorama query errors
+
             LookupPanorama(position);
 
             // Translate position to geospacial earth coordinate for debugging
-            uvEarth = MathHelpers.CartesianToEarthUV(position, settings.WorldSize);
+            uvEarth = MathHelpers.CartesianToEarthUV(position, settings.WorldSize.Value);
 
             Console.WriteLine("Panorama moved to ({0},{1})", uvEarth.X, uvEarth.Y);
 

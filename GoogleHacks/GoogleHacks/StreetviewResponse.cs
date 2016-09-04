@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* Copyright © 2016
+ * Author: Gerallt Franke */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;

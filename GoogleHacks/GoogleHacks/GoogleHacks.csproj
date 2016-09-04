@@ -49,13 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageDeltaNode.cs" />
+    <Compile Include="Minimap.cs" />
     <Compile Include="Panorama.cs" />
     <Compile Include="StreetViewer3DApplication.cs" />
     <Compile Include="MathHelpers.cs" />
-    <Compile Include="Octree.cs" />
-    <Compile Include="Imaging.cs" />
-    <Compile Include="LocalStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreetviewRequest.cs" />
