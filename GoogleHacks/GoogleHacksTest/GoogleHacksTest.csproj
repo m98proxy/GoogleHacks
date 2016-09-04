@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\temp\x3d-finely-sharpened\X3D\X3D.csproj">
+    <ProjectReference Include="..\..\..\X3D\x3d-finely-sharpened\X3D\X3D.csproj">
       <Project>{0742e4e9-d1ba-41f1-b161-33cd3a3d4d33}</Project>
       <Name>X3D</Name>
     </ProjectReference>
