@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using GoogleHacks;
 
 namespace GoogleHacksTest
 {
@@ -24,14 +25,14 @@ namespace GoogleHacksTest
             uv = new Vector2(0, 188);
 
             // Translate the latitude and longitude to a world position
-            pos = GoogleHacks.MathHelpers.EarthUVToCartesian(uv, bbox);
+            pos = MathHelpers.EarthUVToCartesian(uv, bbox);
 
             Assert.IsTrue(pos.X == 0.0f);
             Assert.IsTrue((int)(pos.Y) == 22);
             Assert.IsTrue(pos.Z == 0.0f);
 
             // Find world-origin represented as uv
-            originUv = GoogleHacks.MathHelpers.CartesianToEarthUV(Vector3.Zero, bbox);
+            originUv = MathHelpers.CartesianToEarthUV(Vector3.Zero, bbox);
 
             Assert.IsTrue(originUv.X == -90);
             Assert.IsTrue(originUv.Y == -180);
