@@ -22,7 +22,7 @@ Development tasks:
 * [COMPLETED] Camera position vector mapping to UV Spherical coordinate for translation of 3D space to geospacial
 * [COMPLETED] Streetview provider
 * [COMPLETED] 3D Application skeleton + integration with x3d-finely-sharpened
-* TODO Snap to nearest road using 'Snap to Raods' https://developers.google.com/maps/documentation/roads/snap
+* TODO Snap to nearest road using 'Snap to Roads' https://developers.google.com/maps/documentation/roads/snap
 * TODO local caching of textures and preloading 
 * TODO preference of local cache to under utilise google api throughput 
 * TODO minimised api requests
