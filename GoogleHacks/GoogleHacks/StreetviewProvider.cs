@@ -150,7 +150,7 @@ namespace Google
             if (image == null) return null;
 
             //var newSize = ImageTexture.GetTextureGLMaxSize(image);
-            ImageTexture.Rescale(ref image, new Size(512, 512));
+            ImageTexture.Rescale(ref image, new Size(1024, 1024));
 
             image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
