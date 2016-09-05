@@ -77,6 +77,12 @@ namespace GoogleHacks
 
         #endregion
 
+        #region Public Fields
+
+        private Minimap map;
+
+        #endregion
+
         #region Constructors
 
         public StreetViewer3DApplication(VSyncMode VSync, Resolution res, GraphicsMode mode) : base(res.Width, res.Height, mode)
@@ -123,7 +129,12 @@ namespace GoogleHacks
             GL.DepthFunc(DepthFunction.Lequal);                             // The Type Of Depth Testing To Do
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest); // Really Nice Perspective Calculations
 
+            // Panorama
             Panorama.Initilize(ActiveCamera);
+
+            // Minimap
+            map = new Minimap(size: new Vector3(1.0f, 1.0f, 1.0f), position: new Vector3(0.5f, 0.5f, -1.0f));
+            map.Initilize();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -157,9 +168,11 @@ namespace GoogleHacks
                 Panorama.Move(rc.cam.Direction, rc.cam.Position);
             }
 
+            // Panorama
             Panorama.Render(rc);
 
-            
+            // Minimap
+            map.Render(rc);
 
             SwapBuffers();
         }
