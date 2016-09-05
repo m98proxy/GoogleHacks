@@ -11,7 +11,7 @@ using OpenTK;
 
 namespace GoogleHacks
 {
-    public class MathHelpers
+    public class MathHelpers : X3D.MathHelpers
     {
         /// <summary>
         /// Translates a cartesian coordinate in 3D space to a geospacial point 
