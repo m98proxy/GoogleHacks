@@ -133,9 +133,10 @@ namespace Google
             // Make street view request
             request = new StreetviewRequest()
             {
+                ApiKey = Settings.ApiKey,
                 Width = Settings.Width,
                 Height = Settings.Height,
-                ApiKey = Settings.ApiKey,
+                Fov = 90,
                 Heading = degrees.Y,
                 Pitch = degrees.X,
                 Latitude = uvEarthPosition.X,
@@ -147,10 +148,13 @@ namespace Google
 
             image = response.Image;
 
-            if (image == null) return null;
+            if (image == null)
+            {
+                image = X3D.Properties.Resources.ErrorTexture;
+            }
 
             //var newSize = ImageTexture.GetTextureGLMaxSize(image);
-            ImageTexture.Rescale(ref image, new Size(1024, 1024));
+            //ImageTexture.Rescale(ref image, new Size(1024, 1024));
 
             image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
@@ -184,6 +188,8 @@ namespace Google
                     ms = resource as MemoryStream;
 
                     image = new Bitmap(ms);
+
+                    Console.WriteLine("[skybox-part] {0}", url);
                 }
                 else
                 {
