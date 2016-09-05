@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using X3D;
+using X3D.Engine;
 
 namespace GoogleHacks
 {
@@ -38,8 +39,8 @@ namespace GoogleHacks
 
         #region Private Fields
 
-        Shape rectShape;
-        Rectangle2D rect = new Rectangle2D();
+        private Shape rectShape;
+        private Rectangle2D rect = new Rectangle2D();
 
         #endregion
 
@@ -57,16 +58,14 @@ namespace GoogleHacks
 
         #region Rendering Methods
 
-        public void Initilize()
+        public void Initilize(SceneCamera camera)
         {
-            rectShape = new Shape(rect);
-
-            
+            rectShape = new Shape(geometry: rect, transform: Transform.CreateTranslation(camera.Position + camera.Forward));
         }
 
         public void Render(RenderingContext rc)
         {
-
+            rectShape.Draw(rc);
         }
 
         #endregion
