@@ -50,9 +50,15 @@ namespace Google
         public double Pitch = -0.76;
 
         /// <summary>
+        /// The field-of-view angle of the camera. [0 - 120]
+        /// </summary>
+        public double Fov = 90;
+
+        /// <summary>
         /// The Google Streetview Service API URL.
         /// </summary>
-        private string service = "https://maps.googleapis.com/maps/api/streetview?size={0}x{1}&location={2},{3}&heading={4}&pitch={5}&key={6}";
+        private string service = "https://maps.googleapis.com/maps/api/streetview?size={0}x{1}&location={2},{3}&heading={4}&pitch={5}&fov={6}&key={7}";
+
 
         /// <summary>
         /// Builds the google street view service url given Streetview properties.
@@ -64,7 +70,7 @@ namespace Google
         {
             string url;
 
-            url = string.Format(service, Width, Height, Latitude, Longitude, Heading, Pitch, ApiKey);
+            url = string.Format(service, Width, Height, Latitude, Longitude, Heading, Pitch, Fov, ApiKey);
 
             return url;
         }
