@@ -36,6 +36,13 @@ namespace GoogleHacks
 
         #endregion
 
+        #region Private Fields
+
+        Shape rectShape;
+        Rectangle2D rect = new Rectangle2D();
+
+        #endregion
+
         #region Constructors
 
         public Minimap(Vector3 size, Vector3 position)
@@ -52,7 +59,9 @@ namespace GoogleHacks
 
         public void Initilize()
         {
+            rectShape = new Shape(rect);
 
+            
         }
 
         public void Render(RenderingContext rc)
