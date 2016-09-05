@@ -34,6 +34,8 @@ namespace GoogleHacks
         public static bool loadedFirst = false;
         public static int numSidesLoaded = 0;
 
+        public static Vector3 origin;
+
         public static StreetviewProvider CreateProvider()
         {
             StreetviewProvider provider;
@@ -52,7 +54,7 @@ namespace GoogleHacks
 
         public static void Reset(SceneCamera camera)
         {
-            camera.Position = MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize.Value);
+            camera.Position = origin;
         }
 
         public static void Unload()
@@ -82,15 +84,11 @@ namespace GoogleHacks
             isLoaded = false;
             numSidesLoaded = 0;
 
-            // get just 6 static images as a test
-
-            //var test = new Bitmap("D:\\test-streetview.jpg");
-            //var newSize = ImageTexture.GetTextureGLMaxSize(test);
-            //ImageTexture.Rescale(ref test, new Size(512, 512));
-            //left = right = front = back = top = bottom = test;
+            // Get 6 static images and build cubemapped panorama.
 
             //TODO: stitch panorama and remove seams 
-            //TODO: change from cube map to octagon or sphere
+
+            float pitchCalib = 0.024f;
 
             Task.Run(() =>
             {
@@ -106,17 +104,20 @@ namespace GoogleHacks
 
             Task.Run(() =>
             {
-                front = provider.FetchView(position, -0.024f, 0); // move pitch down by constant calibration value (note still need to implement image stitching as this value changes)
-                
+                // move pitch down by constant calibration value (note still need to implement image stitching as this value changes)
+
+                front = provider.FetchView(position, -pitchCalib, 0);
+                //front = new Bitmap(front.Width, front.Height, front.PixelFormat);
+
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
-                back = provider.FetchView(position, 0.024f, X3D.MathHelpers.PI); // move pitch up by constant calibration value (note still need to implement image stitching as this value changes)
+                // move pitch up by constant calibration value (note still need to implement image stitching as this value changes)
 
+                back = provider.FetchView(position, pitchCalib, X3D.MathHelpers.PI); 
                 //back = new Bitmap(back.Width, back.Height, back.PixelFormat);
-                //back.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
                 ++numSidesLoaded;
             });
@@ -130,8 +131,6 @@ namespace GoogleHacks
 
             Task.Run(() =>
             {
-                //float calib = camera.calibTrans.X * 0.5f;
-
                 bottom = provider.FetchView(position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
                 bottom.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
@@ -145,13 +144,15 @@ namespace GoogleHacks
 
             provider = CreateProvider();
 
+            origin = MathHelpers.EarthUVToCartesian(new Vector2(-41.4404713f, 147.127295f), settings.WorldSize.Value);
+
             // Set camera position to a valid Street view location
             Reset(camera);
 
             // Lookup from street view and make a panorama
             LookupPanorama(camera.Position);
 
-            shapeBox = new Shape(new Box());
+            shapeBox = new Shape(geometry: new Box(), transform: Transform.CreateTranslation(camera.Position + camera.Forward));
 
             LastPosition = camera.Position;
 
@@ -173,7 +174,6 @@ namespace GoogleHacks
             if (!preRendered)
             {
                 skybox.PreRenderOnce(rc);
-                shapeBox.PreRenderOnce(rc);
 
                 preRendered = true;
             }
@@ -185,9 +185,7 @@ namespace GoogleHacks
                 skybox.PostRender(rc);
             }
 
-            //shapeBox.PreRender();
-            //shapeBox.Render(rc);
-            //shapeBox.PostRender(rc);
+            shapeBox.Draw(rc);
         }
 
         public static void Move(Vector3 direction, Vector3 position)
