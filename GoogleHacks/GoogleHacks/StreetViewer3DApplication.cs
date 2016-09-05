@@ -12,6 +12,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using X3D;
 using X3D.Engine;
+using System.Drawing;
 
 namespace GoogleHacks
 {
@@ -115,7 +116,7 @@ namespace GoogleHacks
         protected override void OnLoad(EventArgs e)
         {
             Console.WriteLine("LOAD <3d street viewer> ");
-            Console.Title = "GoogleHacks [Streetview 3D] - © 2016 Gerallt Franke";
+            Console.Title = "GoogleHacks [Streetview 3D] - © 2016 RealityDaemon";
             int[] t = new int[2];
             GL.GetInteger(GetPName.MajorVersion, out t[0]);
             GL.GetInteger(GetPName.MinorVersion, out t[1]);
@@ -134,9 +135,9 @@ namespace GoogleHacks
 
             // Minimap
             map = new Minimap(size: new Vector3(1.0f, 1.0f, 1.0f), position: new Vector3(0.5f, 0.5f, -1.0f));
-            map.Initilize();
+            map.Initilize(ActiveCamera);
 
-            this.Title = "GoogleHacks [Streetview 3D] - © 2016 Gerallt Franke";
+            this.Title = "GoogleHacks Streetview Hacker Collection - © 2016 RealityDaemon";
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -167,7 +168,7 @@ namespace GoogleHacks
             if (distFromPos > 0.5f)
             {
                 // there is a substantial enough of a change from the previous location 
-                Panorama.Move(rc.cam.Direction, rc.cam.Position);
+                //Panorama.Move(rc.cam.Direction, rc.cam.Position);
             }
 
             Panorama.camera = ActiveCamera;
@@ -185,11 +186,13 @@ namespace GoogleHacks
         {
             ActiveCamera.ApplyViewport(Width, Height);
         }
+        private Vector2 mouseDelta = Vector2.Zero;
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             ApplyKeyBindings(e);
 
+            X3DApplication.TrackMouseCursor(ref mouseDelta, this, this.updateCamera, this.LockMouseCursor);
         }
 
         #endregion
@@ -396,6 +399,41 @@ namespace GoogleHacks
             }
         }
 
+        private void LockMouseCursor()
+        {
+
+            if (this.isFullscreen)
+            {
+                Rectangle screen = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
+
+                System.Windows.Forms.Cursor.Position = new Point(screen.Width / 2,
+                    screen.Height / 2);
+            }
+        }
+
+        private void updateCamera()
+        {
+            if (NavigationInfo.NavigationType == NavigationType.Fly || NavigationInfo.NavigationType == NavigationType.Walk)
+            {
+                // TEST new camera walk/fly implementation:
+
+                Vector3 direction = Vector3.Zero;
+
+                //if (Math.Abs(mouseDelta.X) > Math.Abs(mouseDelta.Y))
+                //    direction.X = (dx > 0) ? 0.1f : -0.1f;
+                //else
+                //    direction.Y = (dy > 0) ? 0.1f : -0.1f;
+
+                direction = new Vector3(mouseDelta);
+
+                float xAngle = (direction.X);
+                float yAngle = (direction.Y);
+
+                ActiveCamera.ApplyYaw(xAngle);
+                ActiveCamera.ApplyPitch(yAngle);
+                ActiveCamera.ApplyRotation();
+            }
+        }
 
         #endregion
 
