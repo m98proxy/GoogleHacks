@@ -135,6 +135,8 @@ namespace GoogleHacks
             // Minimap
             map = new Minimap(size: new Vector3(1.0f, 1.0f, 1.0f), position: new Vector3(0.5f, 0.5f, -1.0f));
             map.Initilize();
+
+            this.Title = "GoogleHacks [Streetview 3D] - © 2016 Gerallt Franke";
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -167,6 +169,8 @@ namespace GoogleHacks
                 // there is a substantial enough of a change from the previous location 
                 Panorama.Move(rc.cam.Direction, rc.cam.Position);
             }
+
+            Panorama.camera = ActiveCamera;
 
             // Panorama
             Panorama.Render(rc);

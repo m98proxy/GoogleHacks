@@ -42,8 +42,7 @@ namespace GoogleHacks
             {
                 ApiKey = "AIzaSyD1u1BGcJCUUGbzw1iXNpYKnK-wRSW2EfY", // If left blank, further requests and IP address can get blocked by Google.
                 WorldSize = new Vector3(1000000, 1000000, 1000000),
-                Width = 1024,
-                Height = 1024
+                Size = new Vector2(640, 640) // each tile must be a square for cube mapping to work
             };
 
             provider = new StreetviewProvider(settings);
@@ -76,6 +75,8 @@ namespace GoogleHacks
             loadedFirst = true;
         }
 
+        public static SceneCamera camera;
+
         public static void LookupPanorama(Vector3 position)
         {
             isLoaded = false;
@@ -105,26 +106,32 @@ namespace GoogleHacks
 
             Task.Run(() =>
             {
-                front = provider.FetchView(position, 0, 0);
+                front = provider.FetchView(position, -0.024f, 0); // move pitch down by constant calibration value (note still need to implement image stitching as this value changes)
+                
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
-                back = provider.FetchView(position, 0, X3D.MathHelpers.PI);
+                back = provider.FetchView(position, 0.024f, X3D.MathHelpers.PI); // move pitch up by constant calibration value (note still need to implement image stitching as this value changes)
+
+                //back = new Bitmap(back.Width, back.Height, back.PixelFormat);
+                //back.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
                 top = provider.FetchView(position, X3D.MathHelpers.PIOver2, 0);
-                //top.RotateFlip(RotateFlipType.Rotate270FlipNone);
 
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
+                //float calib = camera.calibTrans.X * 0.5f;
+
                 bottom = provider.FetchView(position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
                 bottom.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
@@ -134,6 +141,8 @@ namespace GoogleHacks
 
         public static void Initilize(SceneCamera camera)
         {
+            Panorama.camera = camera;
+
             provider = CreateProvider();
 
             // Set camera position to a valid Street view location
