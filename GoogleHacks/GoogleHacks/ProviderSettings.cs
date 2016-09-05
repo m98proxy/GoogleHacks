@@ -20,9 +20,25 @@ namespace Google
         public string ApiKey { get; set; }
 
         /// <summary>
-        /// The Width of the Streetview image. Default: 640
+        /// The Width of the Streetview tile image. Default: 640
         /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// The Size of the Streetview tile image. Default 640x480
+        /// </summary>
+        public Vector2 Size
+        {
+            get
+            {
+                return new Vector2(Width, Height);
+            }
+            set
+            {
+                this.Width = (int)value.X;
+                this.Height = (int)value.Y;
+            }
+        }
 
         /// <summary>
         /// The Width of the Streetview image. Default: 480
