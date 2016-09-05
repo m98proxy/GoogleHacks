@@ -40,8 +40,10 @@ namespace GoogleHacks
 
             settings = new ProviderSettings()
             {
-                ApiKey = "", // If left blank, further requests and IP address can get blocked by Google.
-                WorldSize = new Vector3(1000000, 1000000, 1000000)
+                ApiKey = "AIzaSyD1u1BGcJCUUGbzw1iXNpYKnK-wRSW2EfY", // If left blank, further requests and IP address can get blocked by Google.
+                WorldSize = new Vector3(1000000, 1000000, 1000000),
+                Width = 1024,
+                Height = 1024
             };
 
             provider = new StreetviewProvider(settings);
@@ -56,37 +58,28 @@ namespace GoogleHacks
 
         public static void Unload()
         {
-            
+            skybox.Unload();
         }
 
         private static void loadPanorama()
         {
-            try
+            //TODO: stitch panorama removing seams 
+
+            if (initilised)
             {
-                //TODO: stitch panorama removing seams 
-
-                if (initilised)
-                {
-                    skybox.Unload();
-                }
-
-                skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
-
-                isLoaded = true;
-                loadedFirst = true;
+                Unload();
             }
-            catch{ }
+
+            skybox.LoadFromBitmapSides(left, right, front, back, top, bottom);
+
+            isLoaded = true;
+            loadedFirst = true;
         }
 
         public static void LookupPanorama(Vector3 position)
         {
             isLoaded = false;
             numSidesLoaded = 0;
-
-            if (initilised)
-            {
-                Unload();
-            }
 
             // get just 6 static images as a test
 
@@ -100,13 +93,13 @@ namespace GoogleHacks
 
             Task.Run(() =>
             {
-                right = provider.FetchView(position, 0, 4.5f + 0.17f);
+                right = provider.FetchView(position, 0, MathHelpers.ThreePIOver2);
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
-                left = provider.FetchView(position, 0, 1.61f);
+                left = provider.FetchView(position, 0, MathHelpers.PIOver2);
                 ++numSidesLoaded;
             });
 
@@ -118,19 +111,23 @@ namespace GoogleHacks
 
             Task.Run(() =>
             {
-                back = provider.FetchView(position, 0, X3D.MathHelpers.PI + 0.7f);
+                back = provider.FetchView(position, 0, X3D.MathHelpers.PI);
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
                 top = provider.FetchView(position, X3D.MathHelpers.PIOver2, 0);
+                //top.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
                 ++numSidesLoaded;
             });
 
             Task.Run(() =>
             {
                 bottom = provider.FetchView(position, -X3D.MathHelpers.PIOver2, -X3D.MathHelpers.PIOver2);
+                bottom.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
                 ++numSidesLoaded;
             });
         }
@@ -161,6 +158,8 @@ namespace GoogleHacks
             }
 
             rc.matricies.Scale = Vector3.One;
+
+            //skybox.Draw(rc);
 
             if (!preRendered)
             {
