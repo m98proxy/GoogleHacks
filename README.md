@@ -1,7 +1,8 @@
 # GoogleHacks
 
 Quick run though
-* Google Street View API in C#
+* Open source C# implementation of a frontend for Google Street View
+* Google Street View API
 * samples from street view rendered as 3D sky backdrop
 * camera controller for movement in 3D space
 * math translating virtual world 3D cartesian coordinates to and from geospacial earth latitude and longitude
