@@ -24,6 +24,8 @@ namespace GoogleHacks
         public static float playerDirectionMagnitude = 0.1f;
         public static float movementSpeed = 0.0001f;
 
+        public static ViewFilterMode FilterMode = ViewFilterMode.Graphical;
+
         #endregion
 
         #region Private Static Fields
@@ -81,6 +83,7 @@ namespace GoogleHacks
         #region Public Fields
 
         private Minimap map;
+        private TextBasedFramebuffer textBasedView = new TextBasedFramebuffer();
 
         #endregion
 
@@ -137,6 +140,8 @@ namespace GoogleHacks
             map = new Minimap(size: new Vector3(1.0f, 1.0f, 1.0f), position: new Vector3(0.5f, 0.5f, -1.0f));
             map.Initilize(ActiveCamera);
 
+            textBasedView.Initilize();
+
             this.Title = "GoogleHacks Streetview Hacker Collection - © 2016 RealityDaemon";
         }
 
@@ -179,8 +184,19 @@ namespace GoogleHacks
             // Minimap
             map.Render(rc);
 
+            if(FilterMode == ViewFilterMode.TextBased)
+            {
+                textBasedView.PipeToConsole(rc, () =>
+                {
+                    Panorama.Render(rc);
+                    map.Render(rc);
+                });
+            }
+
             SwapBuffers();
         }
+
+        
 
         protected override void OnResize(EventArgs e)
         {
@@ -394,6 +410,18 @@ namespace GoogleHacks
                 case Key.O:
 
                     NavigationInfo.HeadlightEnabled = !NavigationInfo.HeadlightEnabled;
+
+                    break;
+                case Key.F6:
+
+                    if(FilterMode == ViewFilterMode.Graphical)
+                    {
+                        FilterMode = ViewFilterMode.TextBased;
+                    }
+                    else if (FilterMode == ViewFilterMode.TextBased)
+                    {
+                        FilterMode = ViewFilterMode.Graphical;
+                    }
 
                     break;
             }
