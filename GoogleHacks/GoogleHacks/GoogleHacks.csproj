@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Minimap.cs" />
     <Compile Include="Panorama.cs" />
     <Compile Include="StreetViewer3DApplication.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="StreetviewProvider.cs" />
     <Compile Include="ProviderSettings.cs" />
     <Compile Include="StreetviewResponse.cs" />
+    <Compile Include="TextBasedFramebuffer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
