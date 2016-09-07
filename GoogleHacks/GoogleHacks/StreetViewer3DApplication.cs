@@ -223,7 +223,7 @@ namespace GoogleHacks
 
             slowFlySpeed = Keyboard[Key.AltLeft];
             fastFlySpeed = Keyboard[Key.ShiftLeft];
-            movementSpeed = fastFlySpeed ? 10.0f : 1.0f;
+            movementSpeed = fastFlySpeed ? 10.0f : 0.3f;
             movementSpeed = slowFlySpeed ? 0.01f : movementSpeed;
 
 
@@ -339,24 +339,24 @@ namespace GoogleHacks
 
                 if (Keyboard[Key.Left])
                 {
-                    ActiveCamera.ApplyYaw(-playerDirectionMagnitude * 0.3f);
+                    ActiveCamera.ApplyYaw(-playerDirectionMagnitude * movementSpeed);
 
                     rotated = true;
                 }
                 if (Keyboard[Key.Right])
                 {
-                    ActiveCamera.ApplyYaw(playerDirectionMagnitude * 0.3f);
+                    ActiveCamera.ApplyYaw(playerDirectionMagnitude * movementSpeed);
 
                     rotated = true;
                 }
                 if (Keyboard[Key.Up])
                 {
-                    ActiveCamera.ApplyPitch(-playerDirectionMagnitude * 0.3f);
+                    ActiveCamera.ApplyPitch(-playerDirectionMagnitude * movementSpeed);
                     rotated = true;
                 }
                 if (Keyboard[Key.Down])
                 {
-                    ActiveCamera.ApplyPitch(playerDirectionMagnitude * 0.3f);
+                    ActiveCamera.ApplyPitch(playerDirectionMagnitude * movementSpeed);
 
                     rotated = true;
                 }
