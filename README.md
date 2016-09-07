@@ -24,6 +24,8 @@ The toolkit used is X3D-finely-sharpened built purely in C#.
 
 ![alt text](Screenshots/screenshot1.png "Streetview in C# Example 1")
 
+![alt text](Screenshots/screenshot2.png "Streetview in C# Example 2 - ASCII Art")
+
 Project currently in development, more to be implemented.
 
 Development tasks:
