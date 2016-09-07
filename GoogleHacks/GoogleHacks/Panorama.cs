@@ -79,6 +79,11 @@ namespace GoogleHacks
 
         public static SceneCamera camera;
 
+        //private static void save(Bitmap bmp, string name)
+        //{
+        //    bmp.Save(@"D:\sv\" + name + ".jpg");
+        //}
+
         public static void LookupPanorama(Vector3 position)
         {
             isLoaded = false;
@@ -108,6 +113,7 @@ namespace GoogleHacks
 
                 front = provider.FetchView(position, -pitchCalib, 0);
                 //front = new Bitmap(front.Width, front.Height, front.PixelFormat);
+                //save(front, "front");
 
                 ++numSidesLoaded;
             });
